@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?createDatebaseIfNotExist=truelass-Name = org.postgresql.Driver
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: tiger

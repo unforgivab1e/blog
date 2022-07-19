@@ -1,6 +1,8 @@
 package com.example.blogs.controllers;
 
 import com.example.blogs.controllers.responseDto.Blog;
+import com.example.blogs.repositories.BlogRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,20 +12,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/blog")
+@RequiredArgsConstructor
 public class BlogController {
 
-     private List<Blog> blogs= Collections.emptyList();
+     private final BlogRepository blogRepository;
 
      @GetMapping
      public List<Blog> allBlogs(){
-         return blogs;
+         return blogRepository.findAll();
      }
 
-     public void save(List<Blog> blogs) {
-         this.blogs=blogs;
-    }
-
-    public void deleteAll() {
-        blogs= Collections.emptyList();
-    }
 }
