@@ -33,8 +33,6 @@ public class BlogControllerTest {
     @Autowired
     private JacksonTester<List<Blog>> blogsJson;
 
-    @Autowired
-    private BlogController blogController;
 
     @Autowired
     private BlogRepository blogRepository;
