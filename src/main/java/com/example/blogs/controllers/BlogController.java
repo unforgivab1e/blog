@@ -33,7 +33,10 @@ public class BlogController {
 
     @PutMapping("/{blogId}/edit")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Blog> editBlog(@PathVariable UUID blogId, @RequestBody Blog blog) throws ChangeSetPersister.NotFoundException {
+    public Optional<Blog> editBlog(
+            @PathVariable UUID blogId,
+            @RequestBody Blog blog) throws ChangeSetPersister.NotFoundException {
+
         return blogService.editBlog(blogId,blog);
     }
 
