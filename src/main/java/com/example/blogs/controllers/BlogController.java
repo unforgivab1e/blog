@@ -1,48 +1,63 @@
 package com.example.blogs.controllers;
 
 import com.example.blogs.Entity.Blog;
-import com.example.blogs.services.BlogService;
+import com.example.blogs.RequestDto.BlogRequestDto;
+import com.example.blogs.repositories.BlogRepository;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/blog")
 @RequiredArgsConstructor
 public class BlogController {
 
-    private final BlogService blogService ;
+    @Autowired
+   final BlogRepository repository;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-     public List<Blog> allBlogs(){
-         return blogService.findBlogs();
+     public Iterable<Blog> allBlogs(){
+         return repository.findAll();
 
      }
-
-     @PostMapping
-     @ResponseStatus(HttpStatus.CREATED)
-     public Blog createBlog(@RequestBody Blog blog){
-        return blogService.createBlog(blog);
-     }
-
-    @PutMapping("/{blogId}/edit")
+    @GetMapping(value = "/{id}/{title}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Blog> editBlog(
-            @PathVariable UUID blogId,
-            @RequestBody Blog blog) throws ChangeSetPersister.NotFoundException {
+    public Blog gitOneBlogs(@PathVariable(name = "id")String id, @PathVariable(name = "title")String title){
+        return  repository.getBlogById(id,title);
 
-        return blogService.editBlog(blogId,blog);
     }
 
-    @DeleteMapping(value = "/{id}")
+     @PostMapping("/save")
+     @ResponseStatus(HttpStatus.CREATED)
+    public BlogRequestDto saveBlog(@RequestBody BlogRequestDto blog){
+        return repository.save(blog);
+     }
+
+    @DeleteMapping(value = "delete/{id}/{title}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTask(@PathVariable(name = "id")UUID id) throws ChangeSetPersister.NotFoundException {
-        blogService.deleteBlog(id);
+    public void deleteTask(@PathVariable(name = "id")String id, @PathVariable(name = "title")String title){
+
+        repository.delete(id,title);
     }
+
+
+
+    @PutMapping("/edit")
+    @ResponseStatus(HttpStatus.OK)
+    public Blog editBlog( @RequestBody Blog blog)  {
+
+        return repository.update(blog);
+    }
+
+
+
+   /* @GetMapping(value = "/{pageNum}")
+    public List<Blog> pageList(@PathVariable(name = "pageNum")int pageNum){
+        Sort sort = Sort.by(Sort.Direction.DESC,"proposed_dates");
+        Pageable pageable = PageRequest.of(pageNum,3,sort);
+        return (List<Blog>) blogService.findByPage(pageable).get();
+    }*/
 }

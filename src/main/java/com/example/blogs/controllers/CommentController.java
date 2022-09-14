@@ -1,10 +1,10 @@
+/*
 package com.example.blogs.controllers;
 
-import com.example.blogs.Entity.Blog;
 import com.example.blogs.Entity.Comment;
-import com.example.blogs.services.BlogService;
 import com.example.blogs.services.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,4 +23,17 @@ public class CommentController {
         return commentService.findComments(uuid);
 
     }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Comment createBlog(@RequestBody Comment comment){
+        return commentService.createComment(comment);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteComment(@PathVariable(name = "id")UUID id) throws ChangeSetPersister.NotFoundException {
+        commentService.deleteComment(id);
+    }
 }
+*/

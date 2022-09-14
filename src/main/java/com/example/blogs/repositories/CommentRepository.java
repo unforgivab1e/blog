@@ -1,3 +1,4 @@
+/*
 package com.example.blogs.repositories;
 
 import com.example.blogs.Entity.Comment;
@@ -16,3 +17,4 @@ public interface CommentRepository extends JpaRepository<Comment, UUID> {
     @Query(" from comment where blog_id=?1")
     List<Comment> findAllComment(UUID uuid);
 }
+*/

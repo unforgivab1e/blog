@@ -1,19 +1,54 @@
 package com.example.blogs.repositories;
-
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.example.blogs.Entity.Blog;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import com.example.blogs.RequestDto.BlogRequestDto;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.util.UUID;
+
+import java.util.List;
 
 @Repository
-public interface BlogRepository extends JpaRepository<Blog, UUID> {
-    @Modifying
-    @Transactional
-    @Query("update blog  set title=?2,content=?3,proposed_dates=?4 where uuid=?1")
-    void edit(UUID uuid, String title, String content, LocalDate proposed_dates);
+public class BlogRepository {
+
+    /*@Autowired
+    private  DynamoDBMapper dynamoDBMapper;*/
+
+    private final DynamoDBMapper dynamoDBMapper;
+
+    public BlogRepository(DynamoDBMapper dynamoDBMapper) {
+        this.dynamoDBMapper = dynamoDBMapper;
+    }
+
+    public List<Blog> findAll() {
+        return dynamoDBMapper.scan(Blog.class, new DynamoDBScanExpression());
+    }
+
+    public BlogRequestDto save(BlogRequestDto blog){
+
+        dynamoDBMapper.save(Blog.fromModel(blog));
+        return blog;
+    }
+
+    public Blog getBlogById(String blogId,String title){
+        return dynamoDBMapper.load(Blog.class,blogId,title);
+    }
+
+    public void delete(String blogId,String title){
+        Blog emp=dynamoDBMapper.load(Blog.class,blogId,title);
+        dynamoDBMapper.delete(emp);
+
+
+    }
+
+    public Blog update(Blog blog){
+        dynamoDBMapper.save(blog);
+        return blog;
+    }
+
 }

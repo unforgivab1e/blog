@@ -1,3 +1,4 @@
+/*
 package com.example.blogs.Entity;
 
 import lombok.AllArgsConstructor;
@@ -22,3 +23,4 @@ public class Comment {
 
 
 }
+*/

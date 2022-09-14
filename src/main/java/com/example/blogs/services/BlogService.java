@@ -1,27 +1,30 @@
+/*
 package com.example.blogs.services;
 
 import com.example.blogs.Entity.Blog;
 import com.example.blogs.repositories.BlogRepository;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
-@Service
-public record BlogService(BlogRepository blogRepository) {
 
-    public List<Blog> findBlogs() {
-        return blogRepository.findAll();
+public class  BlogService {
+
+    @Autowired
+    private BlogRepository repository;
+
+    public List<Blog> findBlogs(){
+        return repository.findAll();
     }
 
-    public Blog createBlog(Blog blog) {
+   */
+/* public Blog createBlog(Blog blog) {
         return blogRepository.save(blog);
     }
 
     public Optional<Blog> editBlog(UUID uuid, Blog blog) throws ChangeSetPersister.NotFoundException {
-        blogRepository.edit(uuid,blog.getTitle(),blog.getContent(),blog.getProposed_dates());
+        blogRepository.edit(uuid,blog.getTitle(),blog.getContent(), LocalDate.parse(blog.getProposed_dates()));
         final var task1 = blogRepository.findById(uuid);
         return judgeResult(task1);
     }
@@ -35,7 +38,14 @@ public record BlogService(BlogRepository blogRepository) {
     }
 
     public void deleteBlog(UUID id) throws ChangeSetPersister.NotFoundException {
-        final var task = blogRepository.findById(id);
-        blogRepository.delete(judgeResult(task).get());
-    }
-}
+        final var blog = blogRepository.findById(id);
+        blogRepository.delete(judgeResult(blog).get());
+    }*//*
+
+
+    */
+/*public List<Object> findByPage(Pageable pageable) {
+
+    }*//*
+
+}*/

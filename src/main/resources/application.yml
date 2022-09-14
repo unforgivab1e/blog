@@ -1,11 +1,10 @@
-spring:
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
-  datasource:
-    url: jdbc:postgresql://localhost:5432/postgres?createDatebaseIfNotExist=truelass-Name = org.postgresql.Driver
-    driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: tiger
-  flyway:
-    enabled: true
+
+config:
+  aws:
+    region: ap-southeast-2
+    dynamodb:
+      url: http://127.0.0.1:4566
+      access-key: temp
+      secret-key: temp
+server:
+  port: 8081
